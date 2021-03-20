@@ -42,10 +42,9 @@ function App() {
           {notifications.length > 0 &&
             notifications.map((notif, i) => {
               return (
-                <div ref={motifDiv} className="notification-wrapper">
+                <div ref={motifDiv} key={i} className="notification-wrapper">
                   <Notification
                     className="test"
-                    key={i}
                     notification={notif}
                     onCloseNotification={handleCloseNotification}
                   />

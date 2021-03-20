@@ -1,13 +1,17 @@
-import { useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
+// import { CSSTransition, TransitionGroup } from "react-transition-group";
 import "./App.css";
 
 function Notification(props) {
   const { notification } = props;
+
   let backgroundColor = "";
   const notifDiv = useRef(null);
 
   useEffect(() => {
-    notifDiv.current.classList.add("notif-enter");
+    if (notifDiv && notifDiv.current) {
+      notifDiv.current.classList.add("notif-show");
+    }
   }, []);
 
   switch (notification.type) {
