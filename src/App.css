@@ -19,6 +19,7 @@
   margin-bottom: 0.75rem;
   transition: all 0.3s ease-in-out;
   transform: translateX(120%);
+  opacity: 1;
 }
 
 .notification-container {

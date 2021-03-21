@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 // import { CSSTransition, TransitionGroup } from "react-transition-group";
 import "./App.css";
 
 function Notification(props) {
-  const { notification } = props;
+  const { notification, permanent } = props;
 
   let backgroundColor = "";
   const notifDiv = useRef(null);
@@ -11,6 +11,12 @@ function Notification(props) {
   useEffect(() => {
     if (notifDiv && notifDiv.current) {
       notifDiv.current.classList.add("notif-show");
+
+      if (permanent) {
+        setTimeout(() => {
+          closeNotification();
+        }, 8000);
+      }
     }
   }, []);
 
@@ -27,21 +33,28 @@ function Notification(props) {
   }
 
   function closeNotification() {
-    props.onCloseNotification(notification);
+    notifDiv.current.style.opacity = 0;
+    notifDiv.current.style.transform = "scale(0)";
+
+    setTimeout(() => {
+      props.onCloseNotification(notification);
+    }, 300);
   }
 
   return (
-    <div
-      ref={notifDiv}
-      className="notification"
-      style={{ backgroundColor: backgroundColor }}
-    >
-      {notification.message}
+    <>
+      <div
+        ref={notifDiv}
+        className="notification"
+        style={{ backgroundColor: backgroundColor }}
+      >
+        {notification.message}
 
-      <span className="notification-cross" onClick={closeNotification}>
-        &times;
-      </span>
-    </div>
+        <span className="notification-cross" onClick={closeNotification}>
+          &times;
+        </span>
+      </div>
+    </>
   );
 }
 

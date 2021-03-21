@@ -4,7 +4,7 @@ import Notification from "./Notification";
 import "./App.css";
 
 function App() {
-  const motifDiv = useRef(null);
+  const notifDiv = useRef(null);
   const [notifications, setNotifications] = useState([]);
   const [notification, setNotification] = useState({
     message: "",
@@ -12,8 +12,8 @@ function App() {
   });
 
   useEffect(() => {
-    if (motifDiv && motifDiv.current) {
-      motifDiv.current.classList.add("notif-move-down");
+    if (notifDiv && notifDiv.current) {
+      notifDiv.current.classList.add("notif-move-down");
     }
   }, [JSON.stringify(notifications)]);
 
@@ -28,24 +28,31 @@ function App() {
   };
 
   function handleCloseNotification(notification) {
-    setNotifications(() => {
-      return notifications.filter((notif, i) => {
-        return notifications.indexOf(notification) !== i;
-      });
-    });
+    const container = document.getElementById(
+      notifications.indexOf(notification)
+    );
+
+    container.classList.remove("notif-move-down");
   }
 
   return (
     <>
       <div className="App">
+        {/* Display Notifications */}
         <div className="notification-container">
           {notifications.length > 0 &&
             notifications.map((notif, i) => {
               return (
-                <div ref={motifDiv} key={i} className="notification-wrapper">
+                <div
+                  id={i}
+                  ref={notifDiv}
+                  key={i}
+                  className="notification-wrapper"
+                >
                   <Notification
                     className="test"
                     notification={notif}
+                    permanent={false}
                     onCloseNotification={handleCloseNotification}
                   />
                 </div>
@@ -53,9 +60,9 @@ function App() {
             })}
         </div>
 
+        {/* Input Section */}
         <div className="form">
           <input
-            id="message"
             value={notification.message}
             onChange={(e) =>
               setNotification({ ...notification, message: e.target.value })
@@ -63,7 +70,6 @@ function App() {
             type="text"
           />
           <select
-            id="type"
             type="text"
             value={notification.type}
             onChange={(e) =>
