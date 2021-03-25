@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-// import { CSSTransition, TransitionGroup } from "react-transition-group";
 import "./App.css";
 
 function Notification(props) {
